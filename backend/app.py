@@ -32,6 +32,8 @@ params = {
     'cx': SEARCH_ENGINE_ID
 }
 
+filtered_links=[]
+
 # API request
 response = re.get(url, params=params)
 results= response.json()
@@ -42,7 +44,8 @@ if 'items' in results:
         'x.com' in item['link'] or 
         'instagram.com' in item['link'] or 
         'facebook.com' in item['link']):
-            print(item['link'])
+            filtered_links.append(item['link'])
 else:
     print('No result found')
 
+print(filtered_links)
