@@ -36,3 +36,18 @@
     transform: rotate(360deg);
   }
 }
+
+a {
+  color: #ffffff; /* Bright blue for better visibility */
+  text-decoration: none; /* Remove underline */
+  font-weight: bold;
+  transition: color 0.3s ease; /* Smooth hover effect */
+}
+
+a:hover {
+  color: #007bff; /* Lighter blue when hovered */
+}
+
+span {
+  color: #ffffff; /* Text for "No Accounts Found" */
+}

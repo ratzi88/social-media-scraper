@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify
 from googlesearch import search  # type: ignore
+from flask_cors import CORS  # To allow cross-origin requests from React frontend
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 
 @app.route('/search', methods=['POST'])
 def search_query():
@@ -26,13 +28,19 @@ def search_query():
             site_search_query = f"{site} {search_query}"
             results = list(search(site_search_query, tld="co.in", num=1, stop=1, pause=2))
             if results:
-                filtered_links.append({"platform": site.split(':')[1], "link": results[0]})
+                # Extract site name and link
+                platform = site.split(':')[1].replace(".com", "")  # Ensure platform names are unique
+                filtered_links.append((platform, results[0]))
 
-        # Return the filtered links as a JSON response
-        if filtered_links:
-            return jsonify({"results": filtered_links}), 200
-        else:
-            return jsonify({"message": "No results found on specified platforms"}), 404
+
+        # Transform filtered_links into a dictionary with default values
+        results_dict = {platform: link for platform, link in filtered_links}
+        for platform in ["facebook", "instagram", "x", "linkedin"]:
+            if platform not in results_dict:
+                results_dict[platform] = None
+
+
+        return jsonify(results_dict), 200
 
     except Exception as e:
         return jsonify({"error": f"An error occurred: {str(e)}"}), 500
