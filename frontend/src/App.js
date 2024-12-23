@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
 import axios from "axios"; // To make API requests
+import config from "./config/config.js";
 
 function App() {
   // States for handling input, loading, results, and error
@@ -16,7 +17,7 @@ function App() {
     setError(null); // Clear previous errors
 
     try {
-      const response = await axios.post("http://localhost:5000/search", {
+      const response = await axios.post(`${config.API_BASE_URL}/search`, {
         name: inputName,
       });
       console.log("API Response:", response.data); // Log the API response

@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-frontend-deployment
+  labels:
+    app: app-frontend-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: app-frontend-deployment
+  template:
+    metadata:
+      labels:
+        app: app-frontend-deployment
+    spec:
+      containers:
+        - name: app-frontend-container
+          image: social-media-scraper-frontends:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: REACT_APP_API_BASE_URL
+              value: "http://app-backend-service:5000"
+          ports:
+            - containerPort: 80

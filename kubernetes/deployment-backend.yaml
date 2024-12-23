@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-backend-deployment
+  labels:
+    app: app-backend-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: app-backend-deployment
+  template:
+    metadata:
+      labels:
+        app: app-backend-deployment
+    spec:
+      containers:
+        - name: app-backend-container
+          image: social-media-scraper-backend:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: MONGO_URI
+              value: mongodb://mongodb:27017/social_media
+          ports:
+            - containerPort: 5000
