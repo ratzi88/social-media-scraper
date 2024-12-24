@@ -10,6 +10,14 @@ function App() {
   const [results, setResults] = useState({});
   const [error, setError] = useState(null);
 
+   // Helper function to truncate URLs 
+   const truncateURL = (url, maxLength = 50) => {
+    if (url.length > maxLength) {
+      return `${url.substring(0, maxLength)}...`;
+    }
+    return url;
+  };
+
   // Function to handle API call
   const fetchSocialAccounts = async () => {
     setLoading(true); // Set loading state
@@ -62,6 +70,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>GrABer</h1>
+        <img src="/favicon.png" className="App-logo" alt="favicon" />
         <p>
           Enter a name below, and GrABer will fetch any linked social media
           accounts from Facebook, Instagram, X, and LinkedIn.
@@ -86,6 +95,7 @@ function App() {
               onClick={fetchSocialAccounts}
               disabled={!inputName}
               style={{
+                fontFamily: "'Poppins', Arial, sans-serif;",
                 padding: "10px 20px",
                 border: "none",
                 borderRadius: "5px",
@@ -97,6 +107,7 @@ function App() {
               Search
             </button>
           </>
+          
         ) : null}
 
         {/* Loading State */}
@@ -110,9 +121,11 @@ function App() {
               <div
                 key={platform}
                 style={{
+                  fontFamily: "'Poppins', Arial, sans-serif;",
                   margin: "10px 0",
                   display: "flex",
                   alignItems: "center",
+                  fontSize: "30px"
                 }}
               >
                 {renderSocialIcon(platform)}
@@ -122,21 +135,25 @@ function App() {
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{
+                      fontFamily: "'Poppins', Arial, sans-serif;",
                       color: "#4da8da", // Link color
                       textDecoration: "none",
                       fontWeight: "bold",
+                      fontSize: "25px",
                     }}
                   >
                     {results[platform]}
                   </a>
                 ) : (
-                  <span style={{ color: "#fff" }}>No Accounts Found</span>
+                  <span style={{ color: "#000000" }}>No Accounts Found</span>
+
                 )}
               </div>
             ))}
             <button
               onClick={resetSearch}
               style={{
+                fontFamily: "'Poppins', Arial, sans-serif;",
                 marginTop: "20px",
                 padding: "10px 20px",
                 backgroundColor: "#007bff",

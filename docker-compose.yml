@@ -15,7 +15,7 @@ services:
   frontend:
     build:
       context: ./frontend
-    image: social-media-scraper-frontends
+    image: social-media-scraper-frontend
     ports:
       - "3000:80"
     environment:
