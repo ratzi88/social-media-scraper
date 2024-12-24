@@ -130,24 +130,23 @@ function App() {
               >
                 {renderSocialIcon(platform)}
                 {results[platform] ? (
-                  <a
-                    href={results[platform]}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                      fontFamily: "'Poppins', Arial, sans-serif;",
-                      color: "#4da8da", // Link color
-                      textDecoration: "none",
-                      fontWeight: "bold",
-                      fontSize: "25px",
-                    }}
-                  >
-                    {results[platform]}
-                  </a>
-                ) : (
-                  <span style={{ color: "#000000" }}>No Accounts Found</span>
-
-                )}
+                <a
+                  href={results[platform]}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    fontFamily: "'Poppins', Arial, sans-serif",
+                    color: "#4da8da", // Link color
+                    textDecoration: "none",
+                    fontWeight: "bold",
+                    fontSize: "25px",
+                  }}
+                >
+                  {truncateURL(results[platform])}
+                </a>
+              ) : (
+                <span style={{ color: "#000000" }}>No Accounts Found</span>
+              )}
               </div>
             ))}
             <button
