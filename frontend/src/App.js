@@ -25,7 +25,7 @@ function App() {
     setError(null); // Clear previous errors
 
     try {
-      const response = await axios.post(`${config.API_BASE_URL}/search`, {
+      const response = await axios.post(`http://3.77.238.198:30001/search`, {
         name: inputName,
       });
       console.log("API Response:", response.data); // Log the API response
