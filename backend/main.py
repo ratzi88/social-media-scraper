@@ -1,22 +1,39 @@
 from flask import Flask, request, jsonify
-from googlesearch import search  # type: ignore
 from flask_cors import CORS  # To allow cross-origin requests from React frontend
-from pymongo import MongoClient # type: ignore
-from bson import json_util # type: ignore
+from pymongo import MongoClient  # For MongoDB integration
+from bson import json_util
+import requests
+from bs4 import BeautifulSoup
 import os
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
-# Mongo db Configuration
+# MongoDB Configuration
 mongo_uri = os.getenv("MONGO_URI", "mongodb://mongodb:27017/")
 client = MongoClient(mongo_uri)
 db = client.social_media
 collection = db.results
 
+def google_search(query, num_results=10):
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+    }
+    search_url = f"https://www.google.com/search?q={query}&num={num_results}"
+    response = requests.get(search_url, headers=headers)
+    response.raise_for_status()
+
+    soup = BeautifulSoup(response.text, "html.parser")
+    search_results = []
+    for g in soup.find_all("div", class_="tF2Cxc"):
+        title = g.find("h3").text
+        link = g.find("a")["href"]
+        search_results.append({"title": title, "link": link})
+    
+    return search_results
+
 @app.route('/search', methods=['POST'])
 def search_query():
-    # Parse the JSON data from the request
     data = request.get_json()
 
     if not data or 'name' not in data:
@@ -32,33 +49,26 @@ def search_query():
     if existing_record:
         return jsonify(existing_record["results"]), 200
 
-    # Define the sites to search
     sites = ["site:facebook.com", "site:instagram.com", "site:x.com", "site:linkedin.com"]
-    filtered_links = []
+    filtered_links = {}
 
     try:
-        # Perform search and filter results
         for site in sites:
             site_search_query = f"{site} {search_query}"
-            results = list(search(site_search_query, tld="co.in", num=1, stop=1, pause=2))
+            results = google_search(site_search_query, num_results=1)
             if results:
-                # Extract site name and link
-                platform = site.split(':')[1].replace(".com", "")  # Ensure platform names are unique
-                filtered_links.append((platform, results[0]))
+                platform = site.split(':')[1].replace(".com", "")  # Extract platform name
+                filtered_links[platform] = results[0]["link"]
 
-
-        # Transform filtered_links into a dictionary with default values
-        results_dict = {platform: link for platform, link in filtered_links}
+        # Add default None values for platforms with no results
         for platform in ["facebook", "instagram", "x", "linkedin"]:
-            if platform not in results_dict:
-                results_dict[platform] = None
+            if platform not in filtered_links:
+                filtered_links[platform] = None
 
-
-        document = {"query": search_query, "results": results_dict}
-        print(f"Inserting document into MongoDB: {document}")
+        document = {"query": search_query, "results": filtered_links}
         collection.insert_one(document)
 
-        return jsonify(results_dict), 200
+        return jsonify(filtered_links), 200
 
     except Exception as e:
         return jsonify({"error": f"An error occurred: {str(e)}"}), 500
