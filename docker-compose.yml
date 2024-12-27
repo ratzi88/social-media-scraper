@@ -4,7 +4,9 @@ services:
   backend:
     build:
       context: ./backend
-    image: social-media-scraper-backend
+      args:
+        - BUILD_NUMBER:${BUILD_NUMBER}
+    image: social-media-scraper-backend:${BUILD_NUMBER}
     ports:
       - "5000:5000"
     depends_on:
