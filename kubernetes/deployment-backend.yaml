@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: app-backend-container
-          image: social-media-scraper-backend:latest
+          image: sframir/social-media-scraper:latest
           imagePullPolicy: IfNotPresent
           env:
             - name: MONGO_URI
