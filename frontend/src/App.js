@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
 import axios from "axios"; // To make API requests
-import config from "./config/config.js";
 
 function App() {
   // States for handling input, loading, results, and error
@@ -10,8 +9,8 @@ function App() {
   const [results, setResults] = useState({});
   const [error, setError] = useState(null);
 
-   // Helper function to truncate URLs 
-   const truncateURL = (url, maxLength = 50) => {
+  // Helper function to truncate URLs
+  const truncateURL = (url, maxLength = 50) => {
     if (url.length > maxLength) {
       return `${url.substring(0, maxLength)}...`;
     }
@@ -107,7 +106,6 @@ function App() {
               Search
             </button>
           </>
-          
         ) : null}
 
         {/* Loading State */}
@@ -125,28 +123,28 @@ function App() {
                   margin: "10px 0",
                   display: "flex",
                   alignItems: "center",
-                  fontSize: "30px"
+                  fontSize: "30px",
                 }}
               >
                 {renderSocialIcon(platform)}
                 {results[platform] ? (
-                <a
-                  href={results[platform]}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    fontFamily: "'Poppins', Arial, sans-serif",
-                    color: "#4da8da", // Link color
-                    textDecoration: "none",
-                    fontWeight: "bold",
-                    fontSize: "25px",
-                  }}
-                >
-                  {truncateURL(results[platform])}
-                </a>
-              ) : (
-                <span style={{ color: "#000000" }}>No Accounts Found</span>
-              )}
+                  <a
+                    href={results[platform]}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      fontFamily: "'Poppins', Arial, sans-serif",
+                      color: "#4da8da", // Link color
+                      textDecoration: "none",
+                      fontWeight: "bold",
+                      fontSize: "25px",
+                    }}
+                  >
+                    {truncateURL(results[platform])}
+                  </a>
+                ) : (
+                  <span style={{ color: "#000000" }}>No Accounts Found</span>
+                )}
               </div>
             ))}
             <button

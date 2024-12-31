@@ -18,8 +18,5 @@ spec:
         - name: app-frontend-container
           image: social-media-scraper-frontends:latest
           imagePullPolicy: IfNotPresent
-          env:
-            - name: REACT_APP_API_BASE_URL
-              value: "http://app-backend-service:5000"
           ports:
             - containerPort: 80

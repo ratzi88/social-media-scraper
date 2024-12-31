@@ -4,17 +4,13 @@ services:
   backend:
     build:
       context: ./backend
-      args:
-        - BUILD_NUMBER:${BUILD_NUMBER}
-    image: social-media-scraper-backend:${BUILD_NUMBER}
+    image: social-media-scraper-backend
     ports:
       - "5000:5000"
     depends_on:
       - mongodb
     environment:
       - MONGO_URI=mongodb://mongodb:27017/social_media
-    networks:
-      - jenkins_env
 
   frontend:
     build:
@@ -22,10 +18,6 @@ services:
     image: social-media-scraper-frontend
     ports:
       - "3000:80"
-    environment:
-      - REACT_APP_API_BASE_URL=http://localhost:5000
-    networks:
-      - jenkins_env
 
   mongodb:
     image: mongo:5.0
@@ -35,11 +27,6 @@ services:
     volumes:
       - mongodb_data:/data/db
       - ./init-capped-collection.js:/docker-entrypoint-initdb.d/init-capped-collection.js
-    networks:
-      - jenkins_env
 
-networks:
-  jenkins_env:
-    
 volumes:
   mongodb_data:
