@@ -24,7 +24,7 @@ function App() {
     setError(null); // Clear previous errors
 
     try {
-      const response = await axios.post(`http://3.70.39.129:30001/search`, {
+      const response = await axios.post(`https://backend.graber.live/search`, {
         name: inputName,
       });
       console.log("API Response:", response.data); // Log the API response

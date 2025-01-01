@@ -32,13 +32,14 @@ def google_search(query, num_results=10):
     
     return search_results
 
-
-@app.route('/health', methods=['GET'])
+@app.route('/', methods=['GET'])
 def health_check():
     """
-    Health check endpoint for ALB
+    Health check endpoint for AWS ALB.
+    Returns a simple 200 status code to indicate the service is running.
     """
-    return "OK", 200
+    return jsonify({"status": "healthy"}), 200
+
 
 @app.route('/search', methods=['POST'])
 def search_query():
