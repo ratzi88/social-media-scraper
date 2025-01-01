@@ -32,7 +32,15 @@ def google_search(query, num_results=10):
     
     return search_results
 
-@app.route('/search', methods=['GET','POST'])
+
+@app.route('/health', methods=['GET'])
+def health_check():
+    """
+    Health check endpoint for ALB
+    """
+    return "OK", 200
+
+@app.route('/search', methods=['POST'])
 def search_query():
     data = request.get_json()
 
