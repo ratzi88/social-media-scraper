@@ -32,7 +32,7 @@ def google_search(query, num_results=10):
     
     return search_results
 
-@app.route('/search', methods=['POST'])
+@app.route('/search', methods=['GET','POST'])
 def search_query():
     data = request.get_json()
 
