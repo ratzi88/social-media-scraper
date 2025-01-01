@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 import os
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})  # Enable CORS for all routes
+CORS(app)  # Enable CORS for all routes
 
 # MongoDB Configuration
 mongo_uri = os.getenv("MONGO_URI", "mongodb://mongodb:27017/")
