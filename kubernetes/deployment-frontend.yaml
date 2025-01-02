@@ -17,6 +17,6 @@ spec:
       containers:
         - name: app-frontend-container
           image: sframir/social-media-scraper_frontend:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 80

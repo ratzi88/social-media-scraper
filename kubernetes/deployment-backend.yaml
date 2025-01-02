@@ -17,7 +17,7 @@ spec:
       containers:
         - name: app-backend-container
           image: sframir/social-media-scraper:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           env:
             - name: MONGO_URI
               value: mongodb://mongodb:27017/social_media
