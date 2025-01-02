@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 import os
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})  # Enable CORS for all routes
+CORS(app)  # Enable CORS for all routes
 
 # MongoDB Configuration
 mongo_uri = os.getenv("MONGO_URI", "mongodb://mongodb:27017/")
@@ -31,15 +31,6 @@ def google_search(query, num_results=10):
         search_results.append({"title": title, "link": link})
     
     return search_results
-
-@app.route('/', methods=['GET'])
-def health_check():
-    """
-    Health check endpoint for AWS ALB.
-    Returns a simple 200 status code to indicate the service is running.
-    """
-    return jsonify({"status": "healthy"}), 200
-
 
 @app.route('/search', methods=['POST'])
 def search_query():
